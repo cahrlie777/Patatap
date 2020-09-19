@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="circle.css">
+  <script type="text/javascript" src="paper-full.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.min.js" integrity="sha512-ALoawPS0JxHQ+8dGL7htZIlVNRaE/SN9gHD4G8pJJTi9H4BQ/3PjdvhggSGR34g00mvTPFkxQuveQUsJA5664Q==" crossorigin="anonymous"></script>
+
+  <script type="text/paperscript" canvas="myCanvas">
+
+    var keyColr = {
+    a:{
+      color: "purple",
+       sound: new Howl({
+      src: ['sounds/bubbles.mp3']
+    })},
+    s:{
+      color: "green",
+       sound: new Howl({
+      src: ['sounds/clay.mp3']
+    })},
+    o:{
+      color: "yellow",
+       sound: new Howl({
+      src: ['sounds/ufo.mp3']
+    })},
+    n:{
+      color: "red",
+       sound: new Howl({
+      src: ['sounds/confetti.mp3']
+    })},
+    e:{
+      color: "blue",
+       sound: new Howl({
+      src: ['sounds/splits.mp3']
+    })},
+    t:{
+      color: "#3f51b5",
+       sound: new Howl({
+      src: ['sounds/squiggle.mp3']
+    })},
+    u:{
+      color: "tomato",
+       sound: new Howl({
+      src: ['sounds/suspension.mp3']
+    })},
+    h:{
+      color: "pink",
+       sound: new Howl({
+      src: ['sounds/strike.mp3']
+    })},
+ 
+    }
+
+
+    var circles = [];
+
+    function onKeyDown(event){
+    //Put a circle to random locition
+    if(keyColr[event.key]){
+    var maxPoint = new Point(view.size.width, view.size.height);
+    var randomPoint = Point.random();
+    var point = maxPoint * randomPoint;
+    var newCircle = new Path.Circle(point, 500);
+    newCircle.fillColor = keyColr[event.key].color;
+    keyColr[event.key].sound.play();
+    circles.push(newCircle);
+    }
+  }
+
+  function onFrame(event){
+    for(var i = 0; i < circles.length; i++){
+      circles[i].fillColor.hue += 1;
+      circles[i].scale(.9);
+       if(circles[i].area < 1){
+      circles[i].remove(); // remove the circle from the canvas
+      circles.splice(i, 1); // remove the circle from the array
+      console.log(circles);
+    }
+    }
+  }
+
+  </script>
+
+</head>
+<body>
+    <canvas id="myCanvas"  resize></canvas>
+</body>
+</html>
